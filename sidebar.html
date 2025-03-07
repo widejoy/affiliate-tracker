@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Affiliate Tracker</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f6f8fa;
+        color: #24292e;
+      }
+
+      .container {
+        padding: 16px;
+      }
+
+      h1 {
+        font-size: 18px;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e1e4e8;
+      }
+
+      .current-affiliate {
+        background-color: #f1f8e9;
+        border-left: 4px solid #4caf50;
+        padding: 12px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+      }
+
+      .current-affiliate.none {
+        background-color: #f5f5f5;
+        border-left-color: #9e9e9e;
+        color: #666;
+      }
+
+      .history-item {
+        background-color: white;
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+        margin-bottom: 12px;
+        padding: 12px;
+      }
+
+      .history-item h3 {
+        font-size: 14px;
+        margin: 0 0 8px 0;
+        color: #0366d6;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .history-item p {
+        margin: 4px 0;
+        font-size: 13px;
+      }
+
+      .label {
+        font-weight: bold;
+        color: #24292e;
+      }
+
+      .timestamp {
+        color: #6a737d;
+        font-size: 12px;
+        margin-top: 8px;
+      }
+
+      .program-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        background-color: #e1e4e8;
+        border-radius: 12px;
+        font-size: 12px;
+        margin-right: 4px;
+      }
+
+      .program-badge.amazon {
+        background-color: #ff9900;
+        color: white;
+      }
+
+      .program-badge.commission {
+        background-color: #0066c0;
+        color: white;
+      }
+
+      .program-badge.generic {
+        background-color: #6a737d;
+        color: white;
+      }
+
+      .actions {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+
+      button {
+        padding: 6px 12px;
+        background-color: #0366d6;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      button:hover {
+        background-color: #0255b3;
+      }
+
+      button.clear {
+        background-color: #d73a49;
+      }
+
+      button.clear:hover {
+        background-color: #b92534;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 32px 16px;
+        color: #6a737d;
+      }
+
+      .filter-container {
+        margin-bottom: 16px;
+      }
+
+      .filter-container input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #e1e4e8;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      .stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .stat-card {
+        flex: 1;
+        min-width: 120px;
+        background-color: white;
+        border: 1px solid #e1e4e8;
+        border-radius: 4px;
+        padding: 12px;
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #0366d6;
+      }
+
+      .stat-label {
+        font-size: 12px;
+        color: #6a737d;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Affiliate Tracker</h1>
+
+      <!-- Current page affiliate info -->
+      <div id="currentAffiliate" class="current-affiliate none">
+        <p>No affiliate link detected on current page.</p>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="actions">
+        <button id="exportBtn">Export Data</button>
+        <button id="clearBtn" class="clear">Clear History</button>
+      </div>
+
+      <!-- Stats cards -->
+      <div class="stats">
+        <div class="stat-card">
+          <div id="totalCount" class="stat-value">0</div>
+          <div class="stat-label">Total Detected</div>
+        </div>
+        <div class="stat-card">
+          <div id="amazonCount" class="stat-value">0</div>
+          <div class="stat-label">Amazon</div>
+        </div>
+        <div class="stat-card">
+          <div id="topProgram" class="stat-value">-</div>
+          <div class="stat-label">Top Program</div>
+        </div>
+      </div>
+
+      <!-- Filter -->
+      <div class="filter-container">
+        <input
+          type="text"
+          id="filterInput"
+          placeholder="Filter by domain, program or partner..."
+        />
+      </div>
+
+      <!-- History list -->
+      <h2>Affiliate History</h2>
+      <div id="historyList"></div>
+    </div>
+
+    <script src="sidebar.js"></script>
+  </body>
+</html>
