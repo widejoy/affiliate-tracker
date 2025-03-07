@@ -93,6 +93,36 @@ function detectAffiliateFromUrl(url) {
       { param: "partnerId", name: "Generic Partner" },
       { param: "utm_source", name: "UTM Tracking" },
       { param: "irclickid", name: "Impact Radius" },
+      { param: "subid", name: "Generic Sub ID" },
+      { param: "sub_id", name: "Generic Sub ID" },
+      { param: "pid", name: "Generic Publisher ID" },
+      { param: "sid", name: "Generic Session ID" },
+      { param: "aid", name: "Affiliate ID" },
+      { param: "pubid", name: "Generic Publisher ID" },
+      { param: "pub", name: "Generic Publisher" },
+      { param: "refid", name: "Referral ID" },
+      { param: "cmp", name: "Campaign Tracking" },
+      { param: "campaign", name: "Campaign Tracking" },
+      { param: "gclid", name: "Google Ads Click ID" },
+      { param: "fbclid", name: "Facebook Click ID" },
+      { param: "msclkid", name: "Microsoft Ads Click ID" },
+      { param: "ebaycampid", name: "eBay Partner Network" },
+      { param: "admitad_uid", name: "Admitad Tracking" },
+      { param: "awinmid", name: "Awin Merchant ID" },
+      { param: "adref", name: "Ad Tracking Reference" },
+      { param: "trk", name: "Tracking Parameter" },
+      { param: "clickref", name: "Click Reference" },
+      { param: "rdid", name: "Redirection ID" },
+      { param: "refer", name: "Referral Parameter" },
+      { param: "hop", name: "ClickBank Hop ID" },
+      { param: "click", name: "Click Tracking" },
+      { param: "afftrack", name: "Affiliate Tracking" },
+      { param: "aff_source", name: "Affiliate Source" },
+      { param: "aff_sub", name: "Affiliate Sub Parameter" },
+      { param: "aff_sub2", name: "Affiliate Sub Parameter 2" },
+      { param: "aff_sub3", name: "Affiliate Sub Parameter 3" },
+      { param: "aff_sub4", name: "Affiliate Sub Parameter 4" },
+      { param: "aff_sub5", name: "Affiliate Sub Parameter 5" },
     ];
 
     // Extract domain for display
@@ -124,17 +154,23 @@ function detectAffiliateFromUrl(url) {
 
     // Check for affiliate networks by domain
     const affiliateNetworks = [
-      { domain: "click.linksynergy.com", name: "Rakuten Marketing" },
-      { domain: "go.skimresources.com", name: "SkimLinks" },
-      { domain: "anrdoezrs.net", name: "Commission Junction" },
-      { domain: "track.webgains.com", name: "Webgains" },
-      { domain: "shareasale.com", name: "ShareASale" },
-      { domain: "prf.hn", name: "Pepperjam" },
-      { domain: "awin1.com", name: "Awin" },
+      { domain: /amazon\..*\/.*tag=/, name: "Amazon Associates" },
+      { domain: /click\.linksynergy\.com/, name: "Rakuten Marketing" },
+      { domain: /go\.skimresources\.com/, name: "SkimLinks" },
+      { domain: /anrdoezrs\.net/, name: "Commission Junction" },
+      { domain: /track\.webgains\.com/, name: "Webgains" },
+      { domain: /shareasale\.com/, name: "ShareASale" },
+      { domain: /prf\.hn/, name: "Pepperjam" },
+      { domain: /awin1\.com/, name: "Awin" },
+      { domain: /impactradius\./, name: "Impact Radius" },
+      { domain: /partnerize\.com/, name: "Partnerize" },
+      { domain: /cj\.com/, name: "CJ Affiliate" },
+      { domain: /admitad\./, name: "Admitad" },
+      { domain: /ebay\..*campid=/, name: "eBay Partner Network" },
     ];
 
     for (const network of affiliateNetworks) {
-      if (domain.includes(network.domain)) {
+      if (network.domain.test(url)) {
         return {
           program: network.name,
           partner: "Unknown",
@@ -143,16 +179,14 @@ function detectAffiliateFromUrl(url) {
       }
     }
 
-    // Check for affiliate subdomains
+    // Detect affiliate subdomains
     if (
-      domain.startsWith("go.") ||
-      domain.startsWith("click.") ||
-      domain.startsWith("track.") ||
-      domain.includes(".redirect.") ||
-      domain.includes(".clicks.")
+      /^(go|click|track|aff|redirect|partners|refer)\./.test(domain) ||
+      /\.clicks?\./.test(domain) ||
+      /\.redirect\./.test(domain)
     ) {
       return {
-        program: "Redirect Service",
+        program: "Affiliate Redirect",
         partner: "Unknown",
         domain: domain,
       };
