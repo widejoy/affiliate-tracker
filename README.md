@@ -38,7 +38,7 @@ We welcome contributions! 🎉
    git checkout -b feature/your-feature-name
 3. Make your changes and commit using Conventional Commits.
 4. Push the branch and create a pull request.
-5. 
+
 ## ✨ Recommended Setup
 We recommend using the Conventional Commits VS Code extension for standardized commit messages.
 
